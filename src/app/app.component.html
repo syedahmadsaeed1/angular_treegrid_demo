@@ -1,6 +1,6 @@
 <ejs-treegrid #treegrid [dataSource]='data' allowSorting='true'
 [contextMenuItems]="contextMenuItems" [editSettings]='editSettings' [enableVirtualization]=true height=900 class="tree-height" childMapping='Crew'
-  [treeColumnIndex]='1'>
+  [treeColumnIndex]='1' (contextMenuClick)='contextMenuClick($event)' (contextMenuOpen)='contextMenuOpen($event)' >
   <e-columns>
     <e-column id="TaskID" field='TaskID' headerText='Player Jersey' width='120' textAlign='Right'></e-column>
     <e-column field='FIELD1' headerText='Player Name' width='120'></e-column>
