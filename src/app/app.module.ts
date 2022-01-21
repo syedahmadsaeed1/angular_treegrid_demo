@@ -7,6 +7,7 @@ import { ResizeService, ExcelExportService, PdfExportService, ContextMenuService
 import { AppComponent } from './app.component';
 import {ButtonModule} from '@syncfusion/ej2-angular-buttons';
 import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
+import { ContextMenuModule  } from '@syncfusion/ej2-angular-navigations';
 
 /**
  * Module
@@ -17,6 +18,7 @@ import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
         TreeGridModule,
         ButtonModule,
         DropDownListAllModule,
+        ContextMenuModule,
     ],
     declarations: [AppComponent],
     bootstrap: [AppComponent],

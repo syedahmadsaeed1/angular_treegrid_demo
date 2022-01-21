@@ -3,11 +3,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { VirtualScrollService, ToolbarItems, TreeGridComponent } from '@syncfusion/ej2-angular-treegrid';
 import { dataSource, virtualData } from './datasource';
-import { ContextMenuService, EditService, SortService, ResizeService } from '@syncfusion/ej2-angular-grids';
+import { ContextMenuService, EditService, SortService, ResizeService, GridComponent } from '@syncfusion/ej2-angular-grids';
 import { ContextMenuItem, EditSettingsModel } from '@syncfusion/ej2-angular-grids';
 import { getValue, isNullOrUndefined } from '@syncfusion/ej2-base';
 import { BeforeOpenCloseEventArgs } from '@syncfusion/ej2-inputs';
-import { MenuEventArgs } from '@syncfusion/ej2-navigations';
+import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-navigations';
+import { ContextMenuComponent } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +23,44 @@ export class AppComponent implements OnInit {
   @ViewChild('treegrid')
   //@ts-ignore
   public treeGridObj: TreeGridComponent;
+
+  @ViewChild('grid')
+  public grid: any;
+  @ViewChild('contextmenu')
+  public contextmenu: any;
+  @ViewChild('headercontextmenu')
+  public headercontextmenu: any;
+  public selectitem: string[] = [''];
+  public headermenuItems: MenuItemModel[] = [
+    {
+      text: 'Edit Column',
+      id: 'edit'
+    },
+    {
+      text: 'New Column',
+      id: 'new'
+    },
+    {
+      text: 'Delete Column',
+      id: 'delete'
+    },
+    {
+      text: 'Choose Column',
+      id: 'choose'
+    },
+    {
+      text: 'Freeze Column',
+      id: 'freeze'
+    },
+    {
+      text: 'Filter Column',
+      id: 'filter'
+    },
+    {
+      text: 'Multi-Sort',
+      id: 'sort'
+    }
+  ];
 
   ngOnInit(): void {
     dataSource();
@@ -39,18 +78,33 @@ export class AppComponent implements OnInit {
       { text: 'Cut Rows', target: '.e-content', id: 'cut' },
       { text: 'Paste Next', target: '.e-content', id: 'paste-next' },
       { text: 'Paste Child', target: '.e-content', id: 'paste-child' },
-      'SortAscending', 'SortDescending', 'Edit', 'Delete', 'Filter'
+      'Edit', 'Delete', 'Filter'
     ];
   }
 
-  contextMenuClick(args?: MenuEventArgs): void {
-    this.treeGridObj.getColumnByField('taskID');
-    debugger
-    if (args?.item.id === 'collapserow') {
-      this.treeGridObj.collapseRow(<HTMLTableRowElement>(this.treeGridObj.getSelectedRows()[0]));
-    } else {
-      this.treeGridObj.expandRow(<HTMLTableRowElement>(this.treeGridObj.getSelectedRows()[0]));
-    }
+  rowContextMenuClick(args?: MenuEventArgs): void {
+    // if (args.item.id === 'next') {
+    //   this.treeGridObj.addRow(this.treeGridObj.getSelectedRecords()[0], 'Next');
+    // }
+    // if (args.item.id === 'child') {
+    //   this.treeGridObj.addRow(this.treeGridObj.getSelectedRecords()[0], 'Child');
+    // }
+    // if (args.item.id === 'multi') {
+    //   this.treeGridObj.selectRows([this.treeGridObj.getSelectedRows()[0], this.treeGridObj.getSelectedRows()[1]]);
+    // }
+    // if (args.item.id === 'copy') {
+    //   this.treeGridObj.copy();
+    // }
+    // if (args.item.id === 'cut') {
+    //   this.treeGridObj.cut();
+    // }
+    // if (args.item.id === 'paste-next') {
+    //   this.treeGridObj.paste('Next');
+    // }
+    // if (args.item.id === 'paste-child') {
+    //   this.treeGridObj.paste('Child');
+    // }
+
   }
 
   contextMenuOpen(arg: BeforeOpenCloseEventArgs): void {
@@ -68,5 +122,11 @@ export class AppComponent implements OnInit {
       val = !flag ? 'none' : 'block';
       document.querySelectorAll('li#collapserow')[0].setAttribute('style', 'display: ' + val + ';');
     }
+  }
+
+  columnContextMenuOpen(args: any): void {
+    //debugger
+    //handle selection of context menu items here
+    
   }
 }
