@@ -9,6 +9,7 @@ import { getValue, isNullOrUndefined } from '@syncfusion/ej2-base';
 import { BeforeOpenCloseEventArgs } from '@syncfusion/ej2-inputs';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-navigations';
 import { ContextMenuComponent } from '@syncfusion/ej2-angular-navigations';
+import { DialogComponent, ButtonPropsModel } from '@syncfusion/ej2-angular-popups';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +21,21 @@ export class AppComponent implements OnInit {
   public data: Object[] = [{}];
   public editSettings: object = {};
   public contextMenuItems: any;
+  @ViewChild('edit_dialog')
+  //@ts-ignore
+  public editDialog: DialogComponent;
+  public visible: Boolean = false;
+  public hidden: Boolean = false;
+  public showCloseIcon: Boolean = false;
+  public confirmCloseIcon: Boolean = true;
+  public animationSettings: Object = { effect: 'None' };
+  public hide: any;
+  public target: string = '.control-section';
+  public alertWidth: string = '250px';
+  public confirmWidth: string = '400px';
+  public promptWidth: string = '330px';
+  public position: any = { X: 100, Y: 100 };
+  public promptHeader: string = 'Join Wi-Fi network';
   @ViewChild('treegrid')
   //@ts-ignore
   public treeGridObj: TreeGridComponent;
@@ -82,19 +98,22 @@ export class AppComponent implements OnInit {
     ];
   }
 
-  rowContextMenuClick(args?: MenuEventArgs): void {
-    // if (args.item.id === 'next') {
-    //   this.treeGridObj.addRow(this.treeGridObj.getSelectedRecords()[0], 'Next');
-    // }
+  rowContextMenuClick(args: MenuEventArgs): void {
+    if (args.item.id === 'next') {
+      //@ts-ignore
+      this.treeGridObj.addRecord(this.treeGridObj.getSelectedRecords()[0], 'Next');
+    }
     // if (args.item.id === 'child') {
-    //   this.treeGridObj.addRow(this.treeGridObj.getSelectedRecords()[0], 'Child');
+    //   //@ts-ignore
+    //   this.treeGridObj.addRecord(this.treeGridObj.getSelectedRecords()[0], 'Child');
     // }
     // if (args.item.id === 'multi') {
+    //   //@ts-ignore
     //   this.treeGridObj.selectRows([this.treeGridObj.getSelectedRows()[0], this.treeGridObj.getSelectedRows()[1]]);
     // }
-    // if (args.item.id === 'copy') {
-    //   this.treeGridObj.copy();
-    // }
+    if (args.item.id === 'copy') {
+      this.treeGridObj.copy();
+    }
     // if (args.item.id === 'cut') {
     //   this.treeGridObj.cut();
     // }
@@ -108,25 +127,53 @@ export class AppComponent implements OnInit {
   }
 
   contextMenuOpen(arg: BeforeOpenCloseEventArgs): void {
-    let elem = arg.event.target as Element;
-    let uid = elem.closest('.e-row')!.getAttribute('data-uid');
-    let test = getValue('hasChildRecords', this.treeGridObj.grid.getRowObjectFromUID(uid!).data)
-    debugger
-    if (isNullOrUndefined(test)) {
-      document.querySelectorAll('li#expandrow')[0].setAttribute('style', 'display: ' + 'none' + ';');
-      document.querySelectorAll('li#collapserow')[0].setAttribute('style', 'display: ' + 'none' + ';');
-    } else {
-      let flag: boolean = getValue('expanded', this.treeGridObj.grid.getRowObjectFromUID(uid!).data);
-      let val: string = flag ? 'none' : 'block';
-      document.querySelectorAll('li#expandrow')[0].setAttribute('style', 'display: ' + val + ';');
-      val = !flag ? 'none' : 'block';
-      document.querySelectorAll('li#collapserow')[0].setAttribute('style', 'display: ' + val + ';');
-    }
+    // let elem = arg.event.target as Element;
+    // let row = elem.closest('.e-row')
+    // if (row) {
+    //   let uid = row.getAttribute('data-uid');
+    //   let test = getValue('hasChildRecords', this.treeGridObj.grid.getRowObjectFromUID(uid!).data)
+    //   if (isNullOrUndefined(test)) {
+    //     document.querySelectorAll('li#expandrow')[0].setAttribute('style', 'display: ' + 'none' + ';');
+    //     document.querySelectorAll('li#collapserow')[0].setAttribute('style', 'display: ' + 'none' + ';');
+    //   } else {
+    //     let flag: boolean = getValue('expanded', this.treeGridObj.grid.getRowObjectFromUID(uid!).data);
+    //     let val: string = flag ? 'none' : 'block';
+    //   }
+    // }
   }
 
   columnContextMenuOpen(args: any): void {
-    //debugger
     //handle selection of context menu items here
-    
+    if (args.item.properties.id === "edit") {
+      this.editDialog.show();
+    }
   }
+
+  // public alertDlgButtons: Object[] = [{
+  //   buttonModel: {
+  //     isPrimary: true,
+  //     content: 'Edit',
+  //     cssClass: 'e-flat',
+  //   },
+  //   click: function () {
+  //     //handle the alert dialog's action here
+  //     //@ts-ignore
+  //     this.hide();
+  //   }
+  // }];
+
+  public promptDlgBtnClick = (): void => {
+    this.editDialog.hide();
+  }
+
+  public alertDlgButtons: ButtonPropsModel[] = [
+    {
+      click: this.promptDlgBtnClick.bind(this), buttonModel: { content: 'Edit', isPrimary: true }
+    },
+    {
+      click: this.promptDlgBtnClick.bind(this), buttonModel: { content: 'Cancel' }
+    }
+  ];
+
+
 }

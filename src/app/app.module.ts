@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import {ButtonModule} from '@syncfusion/ej2-angular-buttons';
 import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
 import { ContextMenuModule  } from '@syncfusion/ej2-angular-navigations';
+import { DialogModule } from '@syncfusion/ej2-angular-popups';
 
 /**
  * Module
@@ -19,6 +20,7 @@ import { ContextMenuModule  } from '@syncfusion/ej2-angular-navigations';
         ButtonModule,
         DropDownListAllModule,
         ContextMenuModule,
+        DialogModule,
     ],
     declarations: [AppComponent],
     bootstrap: [AppComponent],

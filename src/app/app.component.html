@@ -12,5 +12,7 @@
 </ejs-treegrid>
 
 <div>
-  <ejs-contextmenu #headercontextmenu target='.e-gridheader' [items]='headermenuItems'></ejs-contextmenu> <!-- (select)="columnContextMenuOpen($event)" -->
+  <ejs-contextmenu #headercontextmenu target='.e-gridheader' (select)="columnContextMenuOpen($event)" [items]='headermenuItems'></ejs-contextmenu>
 </div>
+<ejs-dialog #edit_dialog [buttons]='alertDlgButtons' [visible]='visible' content='Edit Column Dialog' width='200px' height='110px' [position]='position'>
+</ejs-dialog>
