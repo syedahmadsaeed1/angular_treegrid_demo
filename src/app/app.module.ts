@@ -1,13 +1,13 @@
 
-import { NgModule,ViewChild } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { TreeGridModule } from '@syncfusion/ej2-angular-treegrid';
-import { PageService, SortService, FilterService,EditService,ToolbarService } from '@syncfusion/ej2-angular-treegrid';
-import { ResizeService, ExcelExportService, PdfExportService, ContextMenuService } from '@syncfusion/ej2-angular-treegrid';
+import { PageService, SortService, FilterService, EditService } from '@syncfusion/ej2-angular-treegrid';
+import { ResizeService, ContextMenuService } from '@syncfusion/ej2-angular-treegrid';
 import { AppComponent } from './app.component';
-import {ButtonModule} from '@syncfusion/ej2-angular-buttons';
+import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
-import { ContextMenuModule  } from '@syncfusion/ej2-angular-navigations';
+import { ContextMenuModule } from '@syncfusion/ej2-angular-navigations';
 import { DialogModule } from '@syncfusion/ej2-angular-popups';
 
 /**
@@ -25,12 +25,11 @@ import { DialogModule } from '@syncfusion/ej2-angular-popups';
     declarations: [AppComponent],
     bootstrap: [AppComponent],
     providers: [PageService,
-                SortService,
-                FilterService,
-                EditService,
-                ResizeService, 
-                ExcelExportService, 
-                PdfExportService, ContextMenuService,
-                ToolbarService]
+        SortService,
+        FilterService,
+        EditService,
+        ResizeService,
+        ContextMenuService,
+    ]
 })
 export class AppModule { }

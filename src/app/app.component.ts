@@ -3,13 +3,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { VirtualScrollService, ToolbarItems, TreeGridComponent } from '@syncfusion/ej2-angular-treegrid';
 import { dataSource, virtualData } from './datasource';
-import { ContextMenuService, EditService, SortService, ResizeService, GridComponent } from '@syncfusion/ej2-angular-grids';
+import { ContextMenuService, EditService, SortService, ResizeService } from '@syncfusion/ej2-angular-grids';
 import { ContextMenuItem, EditSettingsModel } from '@syncfusion/ej2-angular-grids';
-import { getValue, isNullOrUndefined } from '@syncfusion/ej2-base';
 import { BeforeOpenCloseEventArgs } from '@syncfusion/ej2-inputs';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-navigations';
 import { ContextMenuComponent } from '@syncfusion/ej2-angular-navigations';
 import { DialogComponent, ButtonPropsModel } from '@syncfusion/ej2-angular-popups';
+import { ChangeEventArgs} from '@syncfusion/ej2-angular-dropdowns';
 
 @Component({
   selector: 'app-root',
@@ -22,8 +22,8 @@ export class AppComponent implements OnInit {
   public editSettings: object = {};
   public contextMenuItems: any;
   @ViewChild('edit_dialog')
-  //@ts-ignore
-  public editDialog: DialogComponent;
+  public editDialog!: DialogComponent;
+  public selectionType: string = "Single";
   public visible: Boolean = false;
   public hidden: Boolean = false;
   public showCloseIcon: Boolean = false;
@@ -37,8 +37,7 @@ export class AppComponent implements OnInit {
   public position: any = { X: 100, Y: 100 };
   public promptHeader: string = 'Join Wi-Fi network';
   @ViewChild('treegrid')
-  //@ts-ignore
-  public treeGridObj: TreeGridComponent;
+  public treeGridObj!: TreeGridComponent;
 
   @ViewChild('grid')
   public grid: any;
@@ -100,17 +99,16 @@ export class AppComponent implements OnInit {
 
   rowContextMenuClick(args: MenuEventArgs): void {
     if (args.item.id === 'next') {
-      //@ts-ignore
-      this.treeGridObj.addRecord(this.treeGridObj.getSelectedRecords()[0], 'Next');
+      this.treeGridObj.addRecord(this.treeGridObj.getSelectedRecords()[0], undefined, 'Below');
     }
     // if (args.item.id === 'child') {
     //   //@ts-ignore
     //   this.treeGridObj.addRecord(this.treeGridObj.getSelectedRecords()[0], 'Child');
     // }
-    // if (args.item.id === 'multi') {
-    //   //@ts-ignore
-    //   this.treeGridObj.selectRows([this.treeGridObj.getSelectedRows()[0], this.treeGridObj.getSelectedRows()[1]]);
-    // }
+    if (args.item.id === 'multi') {
+      //@ts-ignore
+      this.multiSelectToggle()
+    }
     if (args.item.id === 'copy') {
       this.treeGridObj.copy();
     }
@@ -174,6 +172,16 @@ export class AppComponent implements OnInit {
       click: this.promptDlgBtnClick.bind(this), buttonModel: { content: 'Cancel' }
     }
   ];
+
+  multiSelectToggle(e: ChangeEventArgs): void {
+    if(this.selectionType == "Multiple"){
+      this.selectionType = "Single";
+      this.treeGridObj.selectionSettings.type = "Single";
+      return  
+    }
+    this.selectionType = "Multiple";
+    this.treeGridObj.selectionSettings.type = "Multiple";
+  }
 
 
 }
